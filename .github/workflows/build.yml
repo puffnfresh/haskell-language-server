@@ -1,30 +1,57 @@
 name: Builds
 
+env:
+  CABAL_VERSION: "3.2.0.0"
+  GHCUP_URL: "https://gitlab.haskell.org/puffnfresh/ghcup-hs/-/jobs/372622/artifacts/raw/out/x86_64-linux-ghcup-0.1.5"
+  GHCUP_JSON_URL: "https://gitlab.haskell.org/haskell/ghcup-hs/-/raw/3055529d4ceab463d92c3a5bbd0a10a0d7fabd9f/ghcup-0.0.2.json"
 on:
   release:
     types: [created]
 jobs:
 
   build:
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
+    container: alpine:3.10
 
     strategy:
       fail-fast: false
       matrix:
         ghc: ['8.10.1', '8.8.3', '8.6.5']
-        os: [ubuntu-latest, macOS-latest, windows-latest]
-        exclude:
-          - os: windows-latest
-            ghc: '8.8.3' # fails due to segfault
 
     steps:
+    - run: |
+        apk add \
+          perl
+      if: matrix.ghc == '8.8.3' || matrix.ghc == '8.6.5'
+
+    - run: |
+        apk add \
+          bash \
+          git \
+          curl \
+          grep \
+          gzip \
+          build-base \
+          binutils-gold \
+          gmp-dev \
+          zlib-dev \
+          ncurses-dev \
+          ncurses-static \
+          && ln -s /usr/lib/libncursesw.so.6 /usr/lib/libtinfow.so.6 \
+          && curl -o ghcup "$GHCUP_URL" \
+          && chmod +x ghcup \
+          && ./ghcup --url-source "$GHCUP_JSON_URL" install cabal "$CABAL_VERSION" \
+          && ./ghcup --url-source "$GHCUP_JSON_URL" install ghc ${{ matrix.ghc }} \
+          && ./ghcup set ghc ${{ matrix.ghc }} \
+          && echo "::add-path::$HOME/.ghcup/bin"
+
+    - run: |
+        tail -n +1 $HOME/.ghcup/logs/*
+      if: ${{ failure() }}
+
     - uses: actions/checkout@v2
       with:
         submodules: true
-    - uses: actions/setup-haskell@v1.1.1
-      with:
-        ghc-version: ${{ matrix.ghc }}
-        cabal-version: '3.2'
 
     # - name: Cache Cabal
     #   uses: actions/cache@v1.2.0
@@ -41,10 +68,12 @@ jobs:
         sed -i.bak -e 's/Paths_haskell_language_server/Paths_hls/g' \
                    src/**/*.hs exe/*.hs
   
-    - run: cabal build floskell -v2
+    - run: cabal update
+
+    # - run: cabal build floskell -v2
 
     - name: Build Server
-      run: cabal build exe:hls -O2 --disable-documentation -fdist-binary
+      run: cabal build exe:hls -O2 --disable-documentation -fdist-binary --enable-executable-static
           
     - name: Find Server Binary
       id: find_server_binary
@@ -66,7 +95,7 @@ jobs:
 
     - name: Build Wrapper
       if: matrix.ghc == '8.10.1'
-      run: cabal build exe:hls-wrapper -O2 --disable-documentation -fdist-binary
+      run: cabal build exe:hls-wrapper -O2 --disable-documentation -fdist-binary --enable-executable-static
 
     - name: Find Wrapper Binary
       if: matrix.ghc == '8.10.1'
