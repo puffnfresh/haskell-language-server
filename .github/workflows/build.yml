@@ -20,7 +20,7 @@ jobs:
     steps:
     - run: |
         apk add git curl && \
-          curl -o ghcup https://downloads.haskell.org/ghcup/GHCUP_VERSION/x86_64-linux-ghcup-$GHCUP_VERSION && \
+          curl -o ghcup https://downloads.haskell.org/ghcup/$GHCUP_VERSION/x86_64-linux-ghcup-$GHCUP_VERSION && \
           chmod +x ghcup && \
           ./ghcup -v install-cabal $CABAL_VERSION && \
           ./ghcup -v install ${{ matrix.ghc }}
