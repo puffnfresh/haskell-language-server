@@ -6,16 +6,13 @@ on:
 jobs:
 
   build:
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
+    container: alpine-3.10
 
     strategy:
       fail-fast: false
       matrix:
         ghc: ['8.10.1', '8.8.3', '8.6.5']
-        os: [alpine-latest, macOS-latest, windows-latest]
-        exclude:
-          - os: windows-latest
-            ghc: '8.8.3' # fails due to segfault
 
     steps:
     - uses: actions/checkout@v2
