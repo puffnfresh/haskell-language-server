@@ -15,7 +15,7 @@ jobs:
         ghc: ['8.10.1', '8.8.3', '8.6.5']
 
     steps:
-    - run: apk add git
+    - run: apk add git sudo curl
     - uses: actions/checkout@v2
       with:
         submodules: true
