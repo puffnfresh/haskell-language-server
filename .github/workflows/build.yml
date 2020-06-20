@@ -22,6 +22,7 @@ jobs:
           grep \
           build-base \
           binutils-gold \
+          ncurses-dev \
           ncurses-static \
           && ln -s /usr/lib/libncursesw.so.6 /usr/lib/libtinfow.so.6 \
           && curl -o ghcup "$GHCUP_URL" \
