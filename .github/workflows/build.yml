@@ -1,7 +1,7 @@
 name: Builds
 
 env:
-  GHCUP_VERSION: "0.1.5"
+  GHC_VERSION: "8.10.1"
   CABAL_VERSION: "3.2.0.0"
   GHCUP_URL: "https://gitlab.haskell.org/puffnfresh/ghcup-hs/-/jobs/372556/artifacts/raw/out/x86_64-linux-ghcup-0.1.5"
 on:
@@ -11,14 +11,25 @@ jobs:
 
   build:
     runs-on: ubuntu-latest
-    container: registry.gitlab.haskell.org/ghc/ci-images/x86_64-linux-alpine:6223fe0b5942f4fa35bdec92c74566cf195bfb42
+    container: alpine:3.10
 
     strategy:
       fail-fast: false
 
     steps:
     - run: |
-        curl -o ghcup "$GHCUP_URL" && \
+        apk add --no-cache \
+          binutils-gold=~2.33 \
+          build-base=~0.5 \
+          coreutils=~8.31 \
+          libffi-dev=~3.2 \
+          musl-dev=~1 \
+          ncurses-dev=~6.1 \
+          zlib-dev=~1.2 \
+          xz=~5.2 \
+          git=~2.24 \
+          curl=~7.67 \
+          curl -o ghcup "$GHCUP_URL" && \
           chmod +x ghcup && \
           ./ghcup install cabal 3.2.0.0 && \
           ./ghcup install ghc 8.10.1
