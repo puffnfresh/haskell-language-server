@@ -41,6 +41,11 @@ jobs:
           && echo "::add-path::$HOME/.ghcup/bin"
 
     - run: |
+        apk add \
+          perl
+      if: matrix.ghc == '8.8.3' || matrix.ghc == '8.6.5'
+
+    - run: |
         tail -n +1 $HOME/.ghcup/logs/*
       if: ${{ failure() }}
 
