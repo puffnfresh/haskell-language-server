@@ -1,7 +1,6 @@
 name: Builds
 
 env:
-  GHC_VERSION: "8.10.1"
   CABAL_VERSION: "3.2.0.0"
   GHCUP_URL: "https://gitlab.haskell.org/puffnfresh/ghcup-hs/-/jobs/372556/artifacts/raw/out/x86_64-linux-ghcup-0.1.5"
   GHCUP_JSON_URL: "https://gitlab.haskell.org/haskell/ghcup-hs/-/raw/3055529d4ceab463d92c3a5bbd0a10a0d7fabd9f/ghcup-0.0.2.json"
@@ -13,6 +12,11 @@ jobs:
   build:
     runs-on: ubuntu-latest
     container: alpine:3.10
+
+    strategy:
+      fail-fast: false
+      matrix:
+        ghc: ['8.10.1', '8.8.3', '8.6.5']
 
     steps:
     - run: |
@@ -32,8 +36,8 @@ jobs:
           && curl -o ghcup "$GHCUP_URL" \
           && chmod +x ghcup \
           && ./ghcup --url-source "$GHCUP_JSON_URL" install cabal "$CABAL_VERSION" \
-          && ./ghcup --url-source "$GHCUP_JSON_URL" install ghc "$GHC_VERSION" \
-          && ./ghcup set "$GHC_VERSION" \
+          && ./ghcup --url-source "$GHCUP_JSON_URL" install ghc ${{ matrix.ghc }} \
+          && ./ghcup set ${{ matrix.ghc }} \
           && echo "::add-path::$HOME/.ghcup/bin"
 
     - run: |
