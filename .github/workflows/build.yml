@@ -24,6 +24,7 @@ jobs:
           build-base \
           binutils-gold \
           gmp-dev \
+          zlib-dev \
           ncurses-dev \
           ncurses-static \
           && ln -s /usr/lib/libncursesw.so.6 /usr/lib/libtinfow.so.6 \
