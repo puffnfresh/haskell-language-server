@@ -26,12 +26,12 @@ jobs:
           xz \
           git \
           curl \
+          bash \
           && ln -s /usr/lib/libncursesw.so.6 /usr/lib/libtinfow.so.6 \
           && curl -o ghcup "$GHCUP_URL" \
           && chmod +x ghcup \
           && ./ghcup install cabal 3.2.0.0 \
           && ./ghcup install ghc 8.10.1
-      shell: /bin/sh {0}
     - run: |
         cat $HOME/.ghcup/logs/ghc-configure.log
     - uses: actions/checkout@v2
