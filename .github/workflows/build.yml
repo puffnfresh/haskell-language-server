@@ -19,6 +19,7 @@ jobs:
         apk add \
           git \
           curl \
+          build-base \
           binutils-gold \
           ncurses-static \
           && ln -s /usr/lib/libncursesw.so.6 /usr/lib/libtinfow.so.6 \
