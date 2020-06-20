@@ -21,6 +21,11 @@ jobs:
     steps:
     - run: |
         apk add \
+          perl
+      if: matrix.ghc == '8.8.3' || matrix.ghc == '8.6.5'
+
+    - run: |
+        apk add \
           bash \
           git \
           curl \
