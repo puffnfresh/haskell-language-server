@@ -18,8 +18,7 @@ jobs:
 
     steps:
     - run: |
-        apk add git curl && \
-          curl -o ghcup "$GHCUP_URL" && \
+        curl -o ghcup "$GHCUP_URL" && \
           chmod +x ghcup && \
           ./ghcup install cabal 3.2.0.0 && \
           ./ghcup install ghc 8.10.1
