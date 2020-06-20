@@ -18,7 +18,7 @@ jobs:
 
     steps:
     - run: |
-        apk add --no-cache \
+        apk add \
           binutils-gold=~2.33 \
           build-base=~0.5 \
           coreutils=~8.31 \
@@ -29,10 +29,11 @@ jobs:
           xz=~5.2 \
           git=~2.24 \
           curl=~7.67 \
-          curl -o ghcup "$GHCUP_URL" && \
-          chmod +x ghcup && \
-          ./ghcup install cabal 3.2.0.0 && \
-          ./ghcup install ghc 8.10.1
+          && ln -s /usr/lib/libncursesw.so.6 /usr/lib/libtinfow.so.6 \
+          && curl -o ghcup "$GHCUP_URL" \
+          && chmod +x ghcup \
+          && ./ghcup install cabal 3.2.0.0 \
+          && ./ghcup install ghc 8.10.1
     - uses: actions/checkout@v2
       with:
         submodules: true
