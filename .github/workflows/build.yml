@@ -21,6 +21,7 @@ jobs:
           git \
           curl \
           grep \
+          gzip \
           build-base \
           binutils-gold \
           gmp-dev \
