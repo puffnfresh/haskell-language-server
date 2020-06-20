@@ -30,7 +30,7 @@ jobs:
           && ./ghcup --url-source "$GHCUP_JSON_URL" install ghc 8.10.1
 
     - run: |
-        cat $HOME/.ghcup/logs/ghc-configure.log
+        tail -n +1 $HOME/.ghcup/logs/*
       if: ${{ failure() }}
 
     - uses: actions/checkout@v2
