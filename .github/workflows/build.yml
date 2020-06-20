@@ -19,16 +19,16 @@ jobs:
     steps:
     - run: |
         apk add \
-          binutils-gold=~2.33 \
-          build-base=~0.5 \
-          coreutils=~8.31 \
-          libffi-dev=~3.2 \
-          musl-dev=~1 \
-          ncurses-dev=~6.1 \
-          zlib-dev=~1.2 \
-          xz=~5.2 \
-          git=~2.24 \
-          curl=~7.67 \
+          binutils-gold \
+          build-base \
+          coreutils \
+          libffi-dev \
+          musl-dev \
+          ncurses-dev \
+          zlib-dev \
+          xz \
+          git \
+          curl \
           && ln -s /usr/lib/libncursesw.so.6 /usr/lib/libtinfow.so.6 \
           && curl -o ghcup "$GHCUP_URL" \
           && chmod +x ghcup \
