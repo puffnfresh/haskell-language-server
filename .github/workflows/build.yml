@@ -31,6 +31,7 @@ jobs:
           && chmod +x ghcup \
           && ./ghcup install cabal 3.2.0.0 \
           && ./ghcup install ghc 8.10.1
+      shell: bash {0}
     - run: |
         cat $HOME/.ghcup/logs/ghc-configure.log
     - uses: actions/checkout@v2
