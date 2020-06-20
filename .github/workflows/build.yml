@@ -19,6 +19,7 @@ jobs:
         apk add \
           git \
           curl \
+          grep \
           build-base \
           binutils-gold \
           ncurses-static \
