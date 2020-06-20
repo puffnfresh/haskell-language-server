@@ -30,6 +30,7 @@ jobs:
           && chmod +x ghcup \
           && ./ghcup --url-source "$GHCUP_JSON_URL" install cabal "$CABAL_VERSION" \
           && ./ghcup --url-source "$GHCUP_JSON_URL" install ghc "$GHC_VERSION" \
+          && ./ghcup set "$GHC_VERSION" \
           && echo "::add-path::$HOME/.ghcup/bin"
 
     - run: |
