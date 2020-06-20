@@ -11,7 +11,7 @@ jobs:
 
   build:
     runs-on: ubuntu-latest
-    container: alpine:3.10
+    container: registry.gitlab.haskell.org/ghc/ci-images/x86_64-linux-alpine:6223fe0b5942f4fa35bdec92c74566cf195bfb42
 
     strategy:
       fail-fast: false
