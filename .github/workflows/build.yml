@@ -17,6 +17,7 @@ jobs:
     steps:
     - run: |
         apk add \
+          bash \
           git \
           curl \
           grep \
